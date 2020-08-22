@@ -1,0 +1,35 @@
+<h2 align="center"> Name: <%= @student.name %></h2>
+
+<div class="well col-xs-8 col-xs-offset-2">
+  <% if @student.user %>
+  <ul class="listing">
+      <div class ="row center">
+        <div class = "col-md-4 col-md-offset-4">
+        <li>Created by:</li>
+        <li><%= link_to gravatar_for(@student.user), user_path(@student.user) %></li>
+        <li>
+          <%= link_to @student.user.username, user_path(@student.user) %>
+        </li>
+
+        <li><small><%= pluralize(@student.user.students.count, "student") if @student.user.students %></small></li>
+        </div>
+      </div>
+   </ul>
+  <% end %>
+  <h4 class="center texts"><strong>  student's age:</strong></h4>
+  <hr>
+  <%= simple_format(@student.age) %>
+    <div class="student-actions">
+      <% if logged_in? && (current_user == @student.user || current_user.admin?) %>
+      <%= link_to "Edit this student", edit_student_path(@student),class: "btn btn-xs btn-primary" %>
+
+<%
+=begin%>
+ <%= link_to "edit this student's details", edit_student_path(@student) %> | 
+<%
+=end%>
+      <%= link_to "delete this student ",student_path(@student), method: :delete, data:{confirm: "are you really sure to delete the sudent ??"}, class: "btn btn-xs btn-danger" %>
+      <% end %>
+      <%= link_to "back to Student lists", students_path, class: "btn btn-xs btn-success" %>
+    </div>
+  </div>
